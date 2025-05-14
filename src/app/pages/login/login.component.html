@@ -1,1 +1,51 @@
-<p>login works!</p>
+<div class="login-container">
+  <section class="login-section">
+    <h2>Bejelentkezés</h2>
+
+    <div class="form-group">
+      <label for="username">Felhasználónév:</label>
+      <input type="text" id="username" [(ngModel)]="username" placeholder="Felhasználónév">
+    </div>
+
+    <div class="form-group">
+      <label for="password">Jelszó:</label>
+      <input type="password" id="password" [(ngModel)]="password" placeholder="Jelszó">
+    </div>
+
+    <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+
+    <button (click)="loginUser()" class="login-btn">Bejelentkezés</button>
+  </section>
+
+  <section class="registration-toggle">
+    <input type="checkbox" id="registrationMode" (click)="toggleRegistration()">
+    <label for="registrationMode">Regisztráció</label>
+  </section>
+
+  <section *ngIf="registrationMode" class="registration-section">
+    <h2>Regisztráció</h2>
+
+    <div class="form-group">
+      <label for="fullName">Teljes név:</label>
+      <input type="text" id="fullName" [(ngModel)]="fullName" placeholder="Teljes név">
+    </div>
+
+    <div class="form-group">
+      <label for="username">Felhasználónév:</label>
+      <input type="text" id="username" [(ngModel)]="username" placeholder="Felhasználónév">
+    </div>
+
+    <div class="form-group">
+      <label for="password">Jelszó:</label>
+      <input type="password" id="password" [(ngModel)]="password" placeholder="Jelszó">
+    </div>
+
+    <div class="form-group">
+      <label for="confirmPassword">Jelszó megerősítése:</label>
+      <input type="password" id="confirmPassword" [(ngModel)]="confirmPassword" placeholder="Jelszó megerősítése">
+    </div>
+
+    <button (click)="registerUser()" class="register-btn">Regisztráció</button>
+  </section>
+</div>
+

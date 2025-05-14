@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-wordcloud',
@@ -7,5 +7,6 @@ import { Component } from '@angular/core';
   styleUrl: './wordcloud.component.scss'
 })
 export class WordcloudComponent {
-
+@Input() originalText="";
+@Input() modifiedText="";
 }
