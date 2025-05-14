@@ -2,6 +2,11 @@
   <section class="login-section">
     <h2>Bejelentkezés</h2>
 
+    <!-- Hibaüzenet alert doboz -->
+    <div *ngIf="showErrorAlert" class="error-alert">
+      {{ errorMessage }}
+    </div>
+
     <div class="form-group">
       <label for="username">Felhasználónév:</label>
       <input type="text" id="username" [(ngModel)]="username" placeholder="Felhasználónév">
@@ -11,8 +16,6 @@
       <label for="password">Jelszó:</label>
       <input type="password" id="password" [(ngModel)]="password" placeholder="Jelszó">
     </div>
-
-    <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
 
     <button (click)="loginUser()" class="login-btn">Bejelentkezés</button>
   </section>
@@ -48,4 +51,5 @@
     <button (click)="registerUser()" class="register-btn">Regisztráció</button>
   </section>
 </div>
+
 

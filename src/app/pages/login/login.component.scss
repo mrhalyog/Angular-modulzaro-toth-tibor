@@ -1,0 +1,95 @@
+// Színek
+$primary-bg: #f0f0f0; // Világosszürke háttér
+$secondary-bg: #ffffff; // Fehér háttér
+$text-color: #333333; // Sötétszürke szöveg
+$button-bg: #333333; // Piros gombok
+$button-text: #ffffff; // Fehér betűk a gombokon
+$error-color: #d32f2f; // Hibaüzenetek piros színe
+
+// Alap stílusok
+body {
+  background-color: $primary-bg;
+  color: $text-color;
+  font-family: Arial, sans-serif;
+}
+
+// Tároló
+.login-container {
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: $secondary-bg;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+// Űrlapcsoportok
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+
+  label {
+    font-weight: bold;
+    color: $text-color;
+    margin-bottom: 5px;
+  }
+
+  input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+}
+
+// Gombok
+button {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: $button-bg;
+  color: $button-text;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s;
+
+  &:hover {
+    background-color: darken($button-bg, 10%);
+;
+  }
+}
+
+// Hibaüzenet
+.error-message {
+  color: $error-color;
+  font-weight: bold;
+}
+
+.error-alert {
+  background-color: #d32f2f; // Piros háttér
+  color: #ffffff; // Fehér betűk
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+// Regisztráció kapcsoló
+.registration-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 15px;
+
+  label {
+    font-size: 14px;
+    color: $text-color;
+  }
+}
+
+// Regisztrációs szekció
+.registration-section {
+  margin-top: 20px;
+}

@@ -19,19 +19,14 @@ export class LoginComponent {
   registrationMode: boolean = false;
   errorMessage: string = '';
   avatarUrl: string = '';
+  showErrorAlert: boolean = false; // Új változó az alert dobozhoz
 
   constructor(private router: Router, private http: HttpClient) {}
 
-  /**
-   * Regisztrációs mód váltása
-   */
   toggleRegistration(): void {
     this.registrationMode = !this.registrationMode;
   }
 
-  /**
-   * Felhasználó bejelentkezése
-   */
   loginUser(): void {
     const usersDB = JSON.parse(localStorage.getItem('usersDB') || '[]');
 
@@ -39,17 +34,16 @@ export class LoginComponent {
 
     if (!user) {
       this.errorMessage = "Sikertelen belépés!";
+      this.showErrorAlert = true; // Alert aktiválása
+      setTimeout(() => this.showErrorAlert = false, 3000); // Alert eltüntetése 3 másodperc után
       return;
     }
 
     console.log("Felhasználó belépett:", user);
     localStorage.setItem('loggedInUser', JSON.stringify(user));
-    this.router.navigate(['dashboard']);
+    this.router.navigate(['home']);
   }
 
-  /**
-   * Felhasználó regisztrációja
-   */
   registerUser(): void {
     if (!this.username || !this.password || !this.confirmPassword || !this.fullName) {
       alert("Minden mezőt ki kell tölteni!");
@@ -78,23 +72,21 @@ export class LoginComponent {
     });
   }
 
-  /**
-   * Avatar generálása
-   */
   generateAvatar(callback: () => void): void {
     this.http.get('https://xsgames.co/randomusers/avatar.php?g=male', { responseType: 'text' })
       .subscribe({
         next: (data: string) => {
           console.log("Generált avatar URL:", data);
           this.avatarUrl = data.includes("http") ? data : 'assets/default-avatar.png';
-          callback();
+          callback(); 
         },
         error: () => {
           console.error("Avatar generálás sikertelen!");
-          this.avatarUrl = 'assets/default-avatar.png';
+          this.avatarUrl = 'assets/default-avatar.png';      
           callback();
         }
       });
   }
 }
+
 

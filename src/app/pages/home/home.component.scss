@@ -1,0 +1,67 @@
+// Színek
+$background-color: #e0e0e0; // Halványszürke háttér
+$text-color: #000000; // Fekete betűszín
+$button-bg: #000000; // Fekete gombok
+$button-text: #ffffff; // Fehér betűk a gombokon
+
+// Alap stílusok
+body {
+  background-color: $background-color;
+  color: $text-color;
+  font-family: Arial, sans-serif;
+}
+
+// Konténer
+.home-container {
+  max-width: 600px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: #ffffff; // Fehér háttér a tartalomnak
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+// Üdvözlő szöveg
+.welcome-message h2 {
+  font-size: 24px;
+  font-weight: bold;
+  color: $text-color;
+}
+
+// Profilkép konténer
+.avatar-container {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+
+  .avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 2px solid #ccc;
+  }
+}
+
+// Gombok
+.action-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+
+  button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    background-color: $button-bg;
+    color: $button-text;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s;
+
+    &:hover {
+      background-color: lighten($button-bg, 10%);
+    }
+  }
+}

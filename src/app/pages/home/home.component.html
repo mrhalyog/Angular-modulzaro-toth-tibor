@@ -1,1 +1,17 @@
-<p>home works!</p>
+<div class="home-container">
+  <header class="welcome-message">
+    <h2>Üdvözöllek, {{ loggedInUser.fullName }}!</h2>
+  </header>
+
+  <section class="profile-section">
+    <div class="avatar-container">
+      <img [src]="loggedInUser.avatarUrl" alt="Profilkép" class="avatar">
+    </div>
+  </section>
+
+  <section class="action-buttons">
+    <button (click)="navigateToCensorship()" class="censorship-btn">Cenzúrázás</button>
+    <button (click)="logout()" class="logout-btn">Kilépés</button>
+  </section>
+</div>
+
