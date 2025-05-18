@@ -1,1 +1,34 @@
-<p>wordcloud works!</p>
+<div class="word-cloud-container">
+  <header class="word-cloud-header">
+    <h2>Szófelhő (Gyakori szavak)</h2>
+  </header>
+
+  <section class="word-cloud-content">
+    <article class="word-column">
+      <h3>Bemenet</h3>
+      <p>{{ originalText }}</p>
+
+      <h4>Eredmény</h4>
+      <div *ngFor="let word of originalWords" 
+           [style.fontSize]="getFontSize(word.count, originalWords[0].count)">
+        {{ word.word }} ({{ word.count }})
+      </div>
+    </article>
+
+    <article class="word-column">
+      <h3>Kimenet</h3>
+      <p [innerHTML]="modifiedText"></p>
+
+      <h4>Eredmény</h4>
+      <div *ngFor="let word of modifiedWords" 
+           [style.fontSize]="getFontSize(word.count, modifiedWords[0].count)">
+        {{ word.word }} ({{ word.count }})
+      </div>
+    </article>
+  </section>
+
+  <footer class="word-cloud-footer">
+    <button (click)="goBack()" class="back-button">Vissza</button>
+  </footer>
+</div>
+

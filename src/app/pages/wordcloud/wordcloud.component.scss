@@ -1,0 +1,87 @@
+// Színek
+$background-color: #e0e0e0; // ✅ Halványszürke háttér
+$text-color: #000000; // ✅ Fekete betűszín
+$container-bg: #ffffff; // ✅ Fehér konténer háttér
+$button-bg: #000000; // ✅ Fekete gombok háttér
+$button-text: #ffffff; // ✅ Fehér betűk
+$title-color: #d32f2f; // ✅ Piros kiemelt címek
+$word-highlight: #2e7d32; // ✅ Zöld szókiemelés
+
+// Alap stílusok
+body {
+  background-color: $background-color; // ✅ Az egész oldal halványszürke hátteret kap
+  color: $text-color;
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+// Fő konténer (középre igazítás)
+.word-cloud-container {
+  max-width: 800px;
+  padding: 20px;
+  background-color: $container-bg; // ✅ Fehér háttér a tartalomnak
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+// Címek
+.word-cloud-header h2 {
+  color: $title-color;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+// Tartalom szekció
+.word-cloud-content {
+  display: flex;
+  justify-content: space-around;
+  gap: 20px; // ✅ Távolság az oszlopok között
+  margin-top: 20px;
+}
+
+// Egyedi oszlopok
+.word-column {
+  flex: 1;
+  padding: 15px;
+  background-color: lighten($container-bg, 5%);
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+// Szavak megjelenítése
+.word-column div {
+  display: block;
+  margin: 5px 0;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+// Betűméret dinamikusan igazítása
+.word-column div[style*="fontSize"] {
+  font-weight: bold;
+  color: $word-highlight;
+}
+
+// Vissza gomb
+.word-cloud-footer {
+  margin-top: 20px;
+}
+
+.back-button {
+  background-color: $button-bg;
+  color: $button-text;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s;
+
+  &:hover {
+    background-color: lighten($button-bg, 10%);
+  }
+}

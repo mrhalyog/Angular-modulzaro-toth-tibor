@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 
 @Component({
@@ -7,14 +8,17 @@ import { Router } from '@angular/router';
   templateUrl: './censored.component.html',
   styleUrls: ['./censored.component.scss'],
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, CommonModule],
 })
+
 export class CensoredComponent {
   blacklistInput: string = '';
   inputText: string = '';
   outputText: string = '';
   outputTextClean: string = '';
   currentUser: any = null;
+  processedWords: { original: string, replaced: string }[] = [];
+
 
   constructor(private router: Router) {}
 
@@ -58,6 +62,8 @@ export class CensoredComponent {
    * Szöveg kis- és nagybetű szerinti megőrzése csere után
    */
   private preserveCase(source: string, target: string): string {
+    console.log (source)
+    console.log (target)
     return source[0] === source[0].toUpperCase()
       ? target[0].toUpperCase() + target.slice(1)
       : target;
@@ -66,65 +72,70 @@ export class CensoredComponent {
   /**
    * Szöveg feldolgozása és cenzúrázása
    */
-  processText(): void {
-    const blacklist: { [key: string]: string[] } = {};
-    const wordUsage: { [key: string]: number } = {};
+processText(): void {
+  const blacklist: { [key: string]: string[] } = {};
+  const wordUsage: { [key: string]: number } = {};
+  this.processedWords = []; // ✅ Reseteljük az értékét minden futás előtt!
 
-    const lines = this.blacklistInput.split('\n');
-    for (let line of lines) {
-      line = line.trim();
-      if (!line.includes('@')) continue;
+  const lines = this.blacklistInput.split('\n');
+  for (let line of lines) {
+    line = line.trim();
+    if (!line.includes('@')) continue;
 
-      const [word, alternativesRaw] = line.split('@');
-      const alternatives = alternativesRaw.split(',').map(a => a.trim()).filter(a => a.length > 0);
-      
-      if (word && alternatives.length > 0) {
-        blacklist[word.trim()] = alternatives;
-        wordUsage[word.trim()] = 0;
-      }
+    const [word, alternativesRaw] = line.split('@');
+    const alternatives = alternativesRaw.split(',').map(a => a.trim()).filter(a => a.length > 0);
+    
+    if (word && alternatives.length > 0) {
+      blacklist[word.trim()] = alternatives;
+      wordUsage[word.trim()] = 0;
     }
-
-    const sentences = this.inputText.split(/(?<=[.!?])\s+/); 
-    const processedSentences: string[] = [];
-    const cleanSentences: string[] = [];
-
-    for (const sentence of sentences) {
-      let modifiedSentence = sentence;
-      let cleanSentence = sentence;
-      const usedAlternatives = new Set<string>();
-
-      for (const word in blacklist) {
-        const regex = new RegExp(`(^|\\s|[.,!?])(${word})(?=\\s|[.,!?]|$)`, 'gi');
-
-        modifiedSentence = modifiedSentence.replace(regex, (match, prefix, matchedWord) => {
-          const alternatives = blacklist[word];
-          let chosen = this.getUniqueAlternative(wordUsage, usedAlternatives, alternatives);
-          wordUsage[word]++;
-
-          return `${prefix}<span class="badge badge-old">${matchedWord}</span> <span class="badge badge-new">${this.preserveCase(matchedWord, chosen)}</span>`;
-        });
-
-        cleanSentence = cleanSentence.replace(regex, (match, prefix, matchedWord) => {
-          const alternatives = blacklist[word];
-          let chosen = this.getUniqueAlternative(wordUsage, usedAlternatives, alternatives);
-          wordUsage[word]++;
-          return `${prefix}${this.preserveCase(matchedWord, chosen)}`;
-        });
-      }
-
-      processedSentences.push(modifiedSentence);
-      cleanSentences.push(cleanSentence);
-    }
-
-    this.outputText = processedSentences.join(' ');
-    this.outputTextClean = cleanSentences.join(' ');
   }
+
+  const sentences = this.inputText.split(/(?<=[.!?])\s+/);
+  const processedSentences: string[] = [];
+  const cleanSentences: string[] = [];
+
+  for (const sentence of sentences) {
+    let modifiedSentence = sentence;
+    let cleanSentence = sentence;
+    const usedAlternatives = new Set<string>();
+
+    for (const word in blacklist) {
+      const regex = new RegExp(`(^|\\s|[.,!?])(${word})(?=\\s|[.,!?]|$)`, 'gi');
+
+      modifiedSentence = modifiedSentence.replace(regex, (match, prefix, matchedWord) => {
+        const alternatives = blacklist[word];
+        let chosen = this.getUniqueAlternative(wordUsage, usedAlternatives, alternatives);
+        wordUsage[word]++;
+
+        // ✅ Hozzáadjuk a régi és az új szót a processedWords listához
+        this.processedWords.push({ original: matchedWord, replaced: chosen });
+
+        return `${prefix}<span class="badge badge-old">${matchedWord}</span> <span class="badge badge-new">${this.preserveCase(matchedWord, chosen)}</span>`;
+      });
+
+      cleanSentence = cleanSentence.replace(regex, (match, prefix, matchedWord) => {
+        const alternatives = blacklist[word];
+        let chosen = this.getUniqueAlternative(wordUsage, usedAlternatives, alternatives);
+        wordUsage[word]++;
+        return `${prefix}${this.preserveCase(matchedWord, chosen)}`;
+      });
+    }
+
+    processedSentences.push(modifiedSentence);
+    cleanSentences.push(cleanSentence);
+  }
+
+  this.outputText = processedSentences.join(' ');
+  this.outputTextClean = cleanSentences.join(' ');
+}
+
 
   /**
    * Egyedi alternatíva kiválasztása szóismétlés elkerülése érdekében
    */
   private getUniqueAlternative(wordUsage: { [key: string]: number }, usedAlternatives: Set<string>, alternatives: string[]): string {
-    let altIndex = wordUsage[alternatives[0]] % alternatives.length;
+    let altIndex = wordUsage[alternatives[0]] || 0 % alternatives.length;
     let chosen = alternatives[altIndex];
 
     let tries = 0;
@@ -146,6 +157,6 @@ export class CensoredComponent {
       original: this.inputText,
       modified: this.outputTextClean.replace(/<[^>]+>/g, '')
     };
-    this.router.navigate(['/word-cloud'], { queryParams });
+    this.router.navigate(['/wordcloud'], { queryParams });
   }
 }

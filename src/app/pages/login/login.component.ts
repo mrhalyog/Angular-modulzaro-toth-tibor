@@ -18,7 +18,7 @@ export class LoginComponent {
   confirmPassword: string = '';
   registrationMode: boolean = false;
   errorMessage: string = '';
-  avatarUrl: string = '';
+  avatarUrl= 'https://xsgames.co/randomusers/avatar.php?g=male';
   showErrorAlert: boolean = false; // Új változó az alert dobozhoz
 
   constructor(private router: Router, private http: HttpClient) {}
@@ -55,8 +55,7 @@ export class LoginComponent {
       return;
     }
 
-    this.generateAvatar(() => {
-      const newUser = {
+    const newUser = {
         username: this.username,
         password: this.password,
         fullName: this.fullName,
@@ -69,24 +68,9 @@ export class LoginComponent {
 
       alert("Sikeres regisztráció!");
       this.registrationMode = false;
-    });
   }
 
-  generateAvatar(callback: () => void): void {
-    this.http.get('https://xsgames.co/randomusers/avatar.php?g=male', { responseType: 'text' })
-      .subscribe({
-        next: (data: string) => {
-          console.log("Generált avatar URL:", data);
-          this.avatarUrl = data.includes("http") ? data : 'assets/default-avatar.png';
-          callback(); 
-        },
-        error: () => {
-          console.error("Avatar generálás sikertelen!");
-          this.avatarUrl = 'assets/default-avatar.png';      
-          callback();
-        }
-      });
-  }
+  
 }
 
 

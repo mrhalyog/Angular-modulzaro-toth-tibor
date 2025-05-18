@@ -1,48 +1,43 @@
-<div class="censorship-container container py-4">
-  <h2 class="mb-4 text-center">Szöveg cenzúrázása</h2>
 
-  <div class="mb-3">
-    <label for="blacklist" class="form-label">Feketelistás szavak:</label>
-    <textarea id="blacklist" class="form-control" [(ngModel)]="blacklist" placeholder="Pl.: szo@alternativa1,alternativa2,..."></textarea>
+<div class="censored-container">
+  <div class="user-info">
+    <h2>{{ currentUser.fullName }}</h2>
+    <h3>{{ currentUser.username }}</h3>
   </div>
 
-  <div class="mb-3">
-    <label for="inputText" class="form-label">Bemeneti szöveg:</label>
-    <textarea id="inputText" class="form-control" [(ngModel)]="inputText" placeholder="Írd be a szöveget, amit ellenőrizni szeretnél..."></textarea>
+  <button (click)="goToHome()" class="home-button">Vissza a kezdőlapra</button>
+  <button (click)="logout()" class="logout-button">Kilépés</button>
+  
+
+  <h2>Szöveg cenzúrázása</h2>
+
+  <div>
+    <label>Feketelista (egy sor: szó&#64;alternatíva1,alternatíva2...)</label><br />
+    <textarea [(ngModel)]="blacklistInput" rows="6" cols="60"></textarea>
   </div>
 
-  <div class="d-flex gap-2 justify-content-center my-3">
-    <button (click)="checkText()" class="btn btn-primary">CHECK</button>
-    <button (click)="navigateBack()" class="btn btn-secondary">Vissza a Dashboard-ra</button>
+  <div>
+    <label>Elemzendő szöveg</label><br />
+    <textarea [(ngModel)]="inputText" rows="6" cols="60"></textarea>
   </div>
 
-  <div class="mt-4">
-    <h4>Eredeti szöveg:</h4>
-    <p>{{ inputText }}</p>
+
+  <button (click)="processText()" class="check-button">
+   CHECK
+  </button>
+
+  <button (click)="goToWordCloud()" class="wordcloud-button">
+   SZÓFELHŐ
+  </button>
+
+  <div class="processed-text">
+    <span *ngFor="let word of processedWords">
+     <span class="badge badge-old">{{ word.original }}</span>
+     <span class="badge badge-new">{{ word.replaced }}</span>
+    </span>
   </div>
 
-  <div class="mt-4">
-    <h4>Módosított szöveg:</h4>
-    <p>{{ censoredText }}</p>
-  </div>
-
-  <div class="mt-4">
-    <h4>Cenzúurázott szavak:</h4>
-    <div *ngIf="censoredWords.length > 0; else noWords">
-      <span *ngFor="let word of censoredWords" class="d-inline-block me-3 mb-2">
-        <span class="badge bg-danger">{{ word.original }}</span>
-        →
-        <span class="badge bg-success">{{ word.replacement }}</span>
-      </span>
-    </div>
-    <ng-template #noWords>
-      <p>Nincsenek cenzúurázott szavak.</p>
-    </ng-template>
-  </div>
-
-  <div class="mt-4">
-    <!-- Szófelhő megjelenítése -->
-    <app-wordcloud [originalText]="inputText" [modifiedText]="censoredText"></app-wordcloud>
-  </div>
+  <h3>Eredmény</h3>
+  <div [innerHTML]="outputText" class="result-container"></div>
 </div>
 

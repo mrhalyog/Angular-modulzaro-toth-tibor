@@ -1,0 +1,113 @@
+// Színek
+$background-color: #e0e0e0d0; // ✅ Halványszürke háttér
+$text-color: #000000; // ✅ Fekete betűszín
+$button-bg: #000000; // ✅ Fekete gombok
+$button-text: #ffffff; // ✅ Fehér betűk
+$badge-old-bg: #d32f2f; // ✅ Piros badge háttér
+$badge-new-bg: #2e7d32; // ✅ Zöld badge háttér
+$badge-text: #ffffff; // ✅ Badge szöveg színe
+
+
+// Fő konténer (középre igazítás)
+.censored-container {
+  margin-left: 40px;
+  max-width: 700px;
+  padding: 20px;
+  background-color: #ffffff; // ✅ Fehér háttér a komponensnek
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: left; // ✅ Középre igazítás
+}
+
+// Szöveges bemeneti mezők
+textarea {
+  width: 600px; // ✅ Szélesség beállítása
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  resize: vertical;
+  text-align: left; // 
+}
+
+// Gombok konténer (középre igazított és gap hozzáadva)
+.buttons-container {
+  display: flex;
+  justify-content: center; // ✅ Gombok középre igazítása
+  gap: 10px; // ✅ 10px távolság a vissza és kilépés gomb között
+  margin-top: 20px;
+}
+
+// Fekete gombok (Vissza és Kilépés)
+.home-button, .logout-button {
+  background-color: $button-bg;
+  color: $button-text;
+  margin-right: 20px;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s;
+
+  &:hover {
+    background-color: lighten($button-bg, 10%);
+  }
+}
+
+// Piros CHECK gomb
+.check-button {
+  background-color: $badge-old-bg;
+  color: $button-text;
+  padding: 15px; // ✅ 15px padding
+  margin-top: 10px;
+  margin-right: 10px; // ✅ 10px margó
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s;
+
+  &:hover {
+    background-color: darken($badge-old-bg, 10%);
+  }
+}
+
+// Kék SZÓFELHŐ gomb
+.wordcloud-button {
+  background-color: #3498db;
+  color: white;
+  padding: 15px; // ✅ 15px padding
+  margin-left: 10px; // ✅ 10px margó
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s;
+
+  &:hover {
+    background-color: darken(#3498db, 10%);
+  }
+}
+
+// Badge-ek megjelenítése
+.badge {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: bold;
+  margin: 3px;
+}
+
+.badge-old {
+  background-color: $badge-old-bg;
+  color: $badge-text;
+}
+
+.badge-new {
+  background-color: $badge-new-bg;
+  color: $badge-text;
+}
+
+

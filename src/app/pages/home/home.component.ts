@@ -34,8 +34,8 @@ export class HomeComponent {
   /**
    * Navigáció cenzúrázási felületre
    */
-  navigateToCensorship(): void {
-    this.router.navigate(['/censorship']);
+  navigateToCensored(): void {
+    this.router.navigate(['/censored']);
   }
 
   /**
